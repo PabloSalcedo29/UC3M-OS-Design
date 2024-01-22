@@ -1,0 +1,25 @@
+version: '2'
+services:
+  mqtt:
+    build: ./mqtt
+    ports:
+      - "1883:1883"
+    volumes:
+      - "./mqtt/app/mosquitto.conf:/etc/mosquitto/mosquitto.conf"
+
+  mqtt2:
+    build: ./mqtt
+    ports:
+      - "1884:1883"
+    volumes:
+      - "./mqtt/app/mosquitto.conf:/etc/mosquitto/mosquitto.conf"
+
+  message_router:
+    build: ./message_router
+    environment:
+      - MQTT_SERVER_ADDRESS=34.159.168.7
+      - MQTT_SERVER_PORT=1883
+      - PYTHONBUFFERED=1
+
+    volumes:
+      - "./message_router/app:/etc/usr/src/app"
